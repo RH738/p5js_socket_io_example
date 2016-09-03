@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Socket.IO + p5js</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    </form>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="p5.js"></script>
+    <script>
+        var socket = io();
+        var mousePositions = [];
+
+        function setup() {
+            createCanvas(500, 500);
+        }
+
+        function mousePressed() {
+            socket.emit('mousePressed', {
+                x: mouseX,
+                y: mouseY
+            });
+        }
+
+        socket.on('newMouseEvent', function(msg) {
+            mousePositions.push(msg);
+        });
+
+        function draw() {
+            //background(255)
+            for (var i = 0; i < mousePositions.length; i++) {
+                ellipse(mousePositions[i].x, mousePositions[i].y, 10, 10);
+            }
+        }
+    </script>
+</body>
+
+</html>
